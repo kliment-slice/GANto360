@@ -8,7 +8,7 @@ class SplitSets:
         self.train_set = []
         self.val_set = []
 
-    def split_indexes(self, number_images, size_train_frac, test_image_index):
+    def split_indexes(self, number_images, size_train_frac):
         """method to split the indexes and update the attributes train_set and val_set
         Args:
             number_images (int): total number of images
@@ -16,14 +16,15 @@ class SplitSets:
             test_image_index (int): some phone image we want to generate a 360 from
         """        
         set_indexes = set(range(number_images))
-        set_indexes.remove(test_image_index)
         train_index_set = set(random.sample(set_indexes, int(size_train_frac*number_images)))
         set_indexes.difference_update(train_index_set)
         val_index_set = set_indexes
 
         #check repetition in train and val; sum of elements
         assert len(train_index_set.intersection(val_index_set)) == 0
-        assert (1 + len(train_index_set) + len(val_index_set)) == number_images 
+        assert (len(train_index_set) + len(val_index_set)) == number_images 
 
         self.train_set = train_index_set
         self.val_set = val_index_set
+
+        return train_index_set, val_index_set
