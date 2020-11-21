@@ -14,13 +14,12 @@ class Generator:
         self._image_dict = {}
 
     def _conv2d(layer_input, filters, f_size=4, bn=True):
-    """Generator Basic Downsampling Block"""
-    d = tf.keras.layers.Conv2D(filters, kernel_size=f_size, strides=2,
-                               padding='same')(layer_input)
-    d = tf.keras.layers.LeakyReLU(alpha=0.2)(d)
-    if bn:
-        d = tf.keras.layers.BatchNormalization(momentum=0.8)(d)
-    return d
+        """Generator Basic Downsampling Block"""
+        d = tf.keras.layers.Conv2D(filters, kernel_size=f_size, strides=2, padding='same')(layer_input)
+        d = tf.keras.layers.LeakyReLU(alpha=0.2)(d)
+        if bn:
+            d = tf.keras.layers.BatchNormalization(momentum=0.8)(d)
+        return d
 
 
     def _deconv2d(layer_input, pre_input, filters, f_size=4, dropout_rate=0):

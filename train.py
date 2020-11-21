@@ -1,9 +1,15 @@
 import os
 import matplotlib.pyplot as plt
-from LoadImages import LoadImages
-from Split import SplitSets
+import numpy as np
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.preprocessing.image import img_to_array
+from tensorflow.keras.preprocessing.image import array_to_img
+
+from LoadImages import LoadImages
+from Split import SplitSets
+from Generator import Generator
+from Discriminator import Discriminator
+
 # from Generator import Generator
 # from Discriminator import Discriminator
 # from Metrics import MSE, SSIM
@@ -25,6 +31,9 @@ class Train():
         self.src_train_dict = dict()
         self.src_val_dict = dict()
         self.test_array = np.array()
+
+        self.generatedArray = []
+        self.generatedImage = []
 
     def Execute(self):
         self.PrepImages()
@@ -65,5 +74,11 @@ class Train():
         assert (len(self.dst_train_dict) + len(self.dst_val_dict)) == len(dst_dict), 'size mismatch (# of images in training and validation != total images)'
        
     def TrainGAN(self):
-        path_dst = 'D:/360GAN/360Vid_100'
+        generator = Generator()
+        generator.build(src_train_dict)
+        discriminator = Discriminator()
+        discriminator.build()
+
+    def generateImage(self):
+        self.generatedImage = array_to_img(self.generatedArray)
 
